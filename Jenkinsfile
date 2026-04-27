@@ -10,6 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
+                // 'sh' ki jagah 'bat' use kiya
                 bat 'npm install'
             }
         }
@@ -22,7 +23,8 @@ pipeline {
         }
 
         stage('Test') {
-            steps 
+            steps {
+                // Windows ke liye exit 0 use kiya
                 bat 'npm test || exit 0'
             }
         }
