@@ -1,62 +1,46 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
-    environment {
-        NODE_ENV = 'production'
-    }
-
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                echo 'Fetching code from GitHub...'
+                echo 'Code already checked out from GitHub'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
                 sh 'npm install'
             }
         }
 
-        stage('Run Backend') {
+        stage('Run App Check') {
             steps {
-                echo 'Starting Node.js server...'
-                sh 'node server.js &'
+                sh 'node -v'
+                sh 'npm -v'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests (if any)...'
                 sh 'npm test || true'
             }
         }
 
-        stage('Build Frontend') {
+        stage('Build') {
             steps {
-                echo 'Frontend static files ready...'
-            }
-        }
-
-        stage('Done') {
-            steps {
-                echo 'Pipeline executed successfully'
+                echo 'No build step for static frontend'
             }
         }
     }
 
     post {
         success {
-            echo 'Build Success'
+            echo 'Pipeline Success'
         }
         failure {
-            echo 'Build Failed'
+            echo 'Pipeline Failed'
         }
     }
 }
