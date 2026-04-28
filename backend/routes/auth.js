@@ -9,6 +9,12 @@ require('dotenv').config({ path: __dirname + '/../.env' });
 
 router.post('/signup', upload.single('profileImage'), async (req, res) => {
   try {
+    // Check if JWT_SECRET is configured
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not configured in environment variables');
+      return res.status(500).json({ error: 'Server configuration error: JWT_SECRET not set' });
+    }
+
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -49,6 +55,12 @@ router.post('/signup', upload.single('profileImage'), async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    // Check if JWT_SECRET is configured
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not configured in environment variables');
+      return res.status(500).json({ error: 'Server configuration error: JWT_SECRET not set' });
+    }
+
     const { email, password } = req.body;
 
     if (!email || !password) {
