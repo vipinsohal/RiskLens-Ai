@@ -22,7 +22,7 @@ pipeline {
         }
 
         stage('Test') {
-            steps 
+            steps {
                 bat 'npm test || exit 0'
             }
         }

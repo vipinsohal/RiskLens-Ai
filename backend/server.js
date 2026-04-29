@@ -1,15 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: __dirname + '/.env' });
 
-
-const connectDB = require('./config/db');
+connectDB = require('./config/db');
 
 const app = express();
 
-// Connect MongoDB
-connectDB();
 
 // Middleware
 app.use(cors());
@@ -37,6 +34,16 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Local:  http://localhost:${PORT}`);
-});
+
+// Connect MongoDB then start server
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Local:  http://localhost:${PORT}`);
+    });
+  })
+  .catch(error => {
+    console.error('Failed to connect to MongoDB. Server not started.');
+    console.error(error);
+    process.exit(1);
+  });

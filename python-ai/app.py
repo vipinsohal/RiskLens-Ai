@@ -252,11 +252,14 @@ def search_stocks():
 
 if __name__ == '__main__':
     import sys
-    sys.stdout.reconfigure(encoding='utf-8')
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass  # Python < 3.7 or already configured
     print("""
     ╔══════════════════════════════════════════╗
     ║    🧠 StockSage AI Engine Running        ║
     ║    Port: 5001                             ║
     ╚══════════════════════════════════════════╝
     """)
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=False, use_reloader=False)
